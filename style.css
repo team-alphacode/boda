@@ -1,0 +1,390 @@
+/* Reiniciamos márgenes para que todo encaje perfecto */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #000; 
+    /* Eliminamos el flexbox que estaba empujando la pantalla de más */
+    min-height: 100vh;
+    overflow-x: hidden; 
+    overflow-y: auto;   
+}
+
+/* Contenedor que simula la pantalla del celular */
+.contenedor-pantalla {
+    position: absolute;
+    top: 0;
+    left: 50%; /* Centra matemáticamente a la mitad de la pantalla */
+    transform: translateX(-50%); /* Corrige el eje para que quede perfecto */
+    width: 100%;
+    min-height: 100vh; 
+    max-width: 450px; /* Ancho máximo para mantener el aspecto de móvil */
+    background-color: #511226; 
+}
+
+/* El contenedor de la landing debe permitir crecer con el contenido */
+#pantalla-landing {
+    position: relative; /* Cambia a relativo para que el scroll funcione hacia abajo */
+    height: auto;
+}
+
+.imagen-fondo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Asegura que la imagen llene el espacio sin deformarse */
+}
+
+/* Estilo y posición del sello */
+#sello-interactivo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    /* Centramos el sello exactamente a la mitad */
+    transform: translate(-50%, -50%); 
+    width: 45%; /* Ajusta este porcentaje si lo quieres más grande o pequeño */
+    cursor: pointer;
+    border-radius: 50%; /* Recorta el fondo negro de tu imagen en un círculo perfecto */
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5); /* Le da un toque de profundidad */
+    transition: transform 0.3s ease; /* Transición suave si hacemos hover */
+}
+
+/* Pequeño efecto visual de latido antes de hacer clic */
+#sello-interactivo:hover {
+    transform: translate(-50%, -50%) scale(1.05);
+}
+
+/* Esta es la clase que aplicaremos con JavaScript al hacer clic */
+.girar-animacion {
+    /* ease-in hace que empiece lento y acelere */
+    animation: giro 3s ease-in forwards !important; 
+}
+
+/* Los fotogramas clave de la animación */
+@keyframes giro {
+    0% {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+    100% {
+        /* Gira 1080 grados (3 vueltas completas) */
+        transform: translate(-50%, -50%) rotate(1080deg) scale(0.5); 
+        opacity: 0; /* Al final del giro, se desvanece sutilmente */
+    }
+}
+
+/* Clase de utilidad para ocultar elementos */
+.oculto {
+    display: none !important;
+}
+
+/* Estilo para que el video ocupe toda la pantalla */
+video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* --- AGREGA ESTO AL FINAL DE TU CSS --- */
+
+/* Animación para que la landing page aparezca suavemente */
+.aparecer-suave {
+    animation: fadeIn 1.5s ease-in forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Estilo temporal para la landing page (solo para hacer pruebas) */
+.contenido-temporal {
+    background-color: #fcf9f2; /* Un color crema elegante de fondo */
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #511226; /* Letra color burdeos */
+    font-family: 'Georgia', serif;
+    padding: 20px;
+}
+
+/* Transición suave para ocultar el sobre */
+.desvanecer-suave {
+    opacity: 0;
+    transition: opacity 0.8s ease;
+    pointer-events: none; 
+}
+
+/* --- ESTILOS PARA LA LANDING PAGE (PARALLAX COMPLETO) --- */
+
+.parallax-container {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden; /* Evita que las imágenes se salgan de la pantalla */
+    background-color: #fcf9f2; 
+    z-index: 1;
+}
+
+/* Regla general base para todas las imágenes del parallax */
+.capa-parallax {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+    pointer-events: none; 
+    will-change: transform;
+}
+
+/* Modificador para fondos: Estira y recorta para llenar toda la pantalla */
+.ajuste-cover {
+    object-fit: cover; 
+}
+
+/* Modificador para textos: Encaja la imagen completa sin deformarla */
+.ajuste-contain {
+    object-fit: contain; 
+    transform-origin: center; /* Asegura que al moverse lo haga desde el centro */
+}
+
+/* EL TRUCO MAGICO: Borra el fondo negro de tus JPGs florales */
+.capa-fusion {
+    mix-blend-mode: screen; 
+}
+
+
+/* Mantén aquí los estilos del .indicador-scroll y .chevron que ya teníamos */
+.indicador-scroll {
+    position: absolute;
+    bottom: 25px; 
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+    z-index: 10; 
+}
+
+.chevron {
+    width: 20px;
+    height: 20px;
+    border-right: 2px solid #bf953f; 
+    border-bottom: 2px solid #bf953f;
+    transform: rotate(45deg); 
+    margin-top: -8px; 
+    animation: latidoFlecha 2s infinite ease-in-out; 
+}
+.chevron:nth-child(2) { animation-delay: 0.2s; }
+@keyframes latidoFlecha {
+    0%, 100% { transform: translateY(0) rotate(45deg); opacity: 0.3; }
+    50% { transform: translateY(10px) rotate(45deg); opacity: 1; }
+}
+
+/* --- SECCIÓN 2: CONTADOR --- */
+.seccion-contador {
+    width: 100%;
+    min-height: 100vh; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative; 
+    z-index: 5; /* ¡Clave! Esto hace que se deslice sobre la portada (z-index: 1) */
+    box-shadow: 0 -15px 30px rgba(0,0,0,0.3);
+    overflow: hidden;
+}
+
+.fondo-seccion-estatico {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+}
+
+.contenido-contador {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    color: #3b5973; /* Tono azul grisáceo de tu diseño */
+    width: 100%;
+    padding: 20px;
+}
+
+/* Tipografías del contador */
+.texto-faltan {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 1.2rem;
+    letter-spacing: 4px;
+    margin: 0;
+}
+
+.texto-para-nuestra {
+    font-family: 'Loving Romance', serif;
+    font-style: italic;
+    font-size: 1.5rem;
+    margin: 5px 0 10px 0;
+}
+
+.texto-boda-cursiva {
+    font-family: 'Avermont House', cursive;
+    font-size: 5rem;
+    line-height: 0.8;
+    margin: 0 0 20px 0;
+    color: #4a6b85;
+}
+
+.separador-corazon {
+    color: #b38728; /* Dorado */
+    font-size: 1.2rem;
+    margin: 15px 0;
+}
+
+/* Diseño de las 4 cajas */
+.contenedor-temporizador {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    max-width: 400px;
+}
+
+.caja-tiempo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: 70px;
+    height: 110px;
+    border: 1px solid #b38728; /* Borde dorado */
+    border-radius: 15px 15px 25px 25px; /* Crea el efecto de arco en las esquinas */
+    padding: 10px 5px;
+    background-color: rgba(252, 249, 242, 0.7); /* Crema semi-transparente */
+}
+
+.icono-caja {
+    font-size: 0.9rem;
+    color: #4a6b85;
+}
+
+.numero-tiempo {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.etiqueta-tiempo {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 0.55rem;
+    letter-spacing: 1px;
+    font-weight: bold;
+    border-top: 1px solid #b38728;
+    width: 80%;
+    padding-top: 5px;
+}
+
+.texto-acerca-mas {
+    font-family: 'Loving Romance', serif;
+    font-style: italic;
+    font-size: 1.8rem;
+    margin: 20px 0 5px 0;
+}
+
+.texto-fecha-final {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 1.2rem;
+    letter-spacing: 5px;
+    font-weight: bold;
+    color: #3b5973;
+}
+
+/* --- ARQUITECTURA PARALLAX DEFINITIVA (Fondo Local Compartido) --- */
+
+/* 1. Contenedor que agrupa las secciones 1 y 2 */
+.grupo-fondo-crema {
+    position: relative;
+    width: 100%;
+}
+
+/* 2. El Fondo que se queda pegado SOLO mientras el usuario vea este grupo */
+.fondo-sticky-local {
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 0;
+}
+
+.fondo-sticky-local img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* 3. Las secciones que pasan por encima del fondo */
+.secciones-superpuestas {
+    position: relative;
+    z-index: 1;
+    /* El truco mágico: Sube las secciones una pantalla completa para tapar el fondo sticky */
+    margin-top: -100vh; 
+}
+
+/* 4. Configuración de cada escena (sin color de fondo para que sean transparentes) */
+.escena-parallax {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden; 
+}
+
+/* 5. Las Capas Individuales */
+.capa-parallax {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+    pointer-events: none; 
+    will-change: transform;
+}
+
+.capa-fusion {
+    mix-blend-mode: screen; 
+}
+
+/* --- ESTILOS DE LOS NÚMEROS DEL CONTADOR --- */
+
+.capa-numeros-dinamicos {
+    display: flex;
+    justify-content: center;
+    /* Mantén el padding-top que ya te funcionó para la altura */
+    padding-top: 55vh; 
+    
+    /* 1. Reducimos el GAP para juntar los números hacia el centro */
+    gap: 3%; 
+}
+
+.numero-contador {
+    /* 2. Ajustamos el ancho para que el bloque de cada número sea un poco más compacto */
+    width: 10%; 
+    text-align: center;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 2.2rem; 
+    font-weight: bold;
+    color: #3b5973; 
+    letter-spacing: 1px;
+}

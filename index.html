@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boda de Bertha y Josue</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="pantalla-sobre" class="contenedor-pantalla">
+        <img src="sobre1.png" alt="Sobre de invitación" class="imagen-fondo">
+        <img src="sello.png" alt="Sello Presiona Aquí" id="sello-interactivo">
+    </div>
+
+    <div id="pantalla-video" class="contenedor-pantalla oculto">
+        <video id="video-invitacion" playsinline>
+            <source src="transicion.mp4" type="video/mp4">
+            Tu navegador no soporta videos.
+        </video>
+    </div>
+
+    <!-- Capa 3: La Landing Page Web (El resto de la invitación) -->
+    <div id="pantalla-landing" class="contenedor-pantalla oculto">
+        
+        <!-- ==========================================
+             GRUPO 1: PORTADA Y CONTADOR (Fondo Compartido) 
+             ========================================== -->
+        <div class="grupo-fondo-crema">
+
+            <!-- El fondo que se quedará fijo SOLO durante estas dos secciones -->
+            <div class="fondo-sticky-local">
+                <img src="fondo.png" alt="Fondo Crema Compartido">
+            </div>
+
+            <!-- Contenedor que sube las secciones para ponerlas sobre el fondo -->
+            <div class="secciones-superpuestas">
+
+                <!-- SECCIÓN 1: Portada -->
+                <section class="seccion-apertura escena-parallax">
+                    <img src="marco.png" class="capa-parallax" data-speed="0.1" alt="Marco Dorado">
+                    <img src="flores_arriba.png" class="capa-parallax" data-speed="0.15" alt="Flores Arriba">
+                    <img src="flores_abajo.png" class="capa-parallax" data-speed="0.2" alt="Flores Abajo">
+                    <img src="separadores.png" class="capa-parallax" data-speed="0.25" alt="Separadores">
+                    <img src="boda.png" class="capa-parallax" data-speed="0.35" alt="Boda">
+                    <img src="nombres.png" class="capa-parallax" data-speed="0.5" alt="Nombres">
+
+                    <div class="indicador-scroll"><div class="chevron"></div><div class="chevron"></div></div>
+                </section>
+
+                <!-- SECCIÓN 2: Contador Parallax -->
+                <section class="seccion-contador escena-parallax">
+                    
+                    <img src="flores.png" class="capa-parallax" data-speed="0.15" alt="Flores Arriba">
+                    
+                    <!-- AQUÍ ESTÁ EL TEXTO QUE FALTABA -->
+                    <img src="bodaname.png" class="capa-parallax" data-speed="0.25" alt="Faltan para nuestra Boda">
+                    
+                    <img src="separadores2.png" class="capa-parallax" data-speed="0.2" alt="Líneas doradas">
+                    <img src="inferior.png" class="capa-parallax" data-speed="0.3" alt="Texto Inferior">
+                    
+                    <!-- Cajas del contador -->
+                    <img src="casillas.png" class="capa-parallax" data-speed="0.45" alt="Cajas Contador">
+
+                    <!-- Números Dinámicos (TIENEN QUE TENER EL MISMO SPEED QUE LAS CASILLAS: 0.45) -->
+                    <div class="capa-parallax capa-numeros-dinamicos" data-speed="0.45">
+                        <div class="numero-contador" id="dias">00</div>
+                        <div class="numero-contador" id="horas">00</div>
+                        <div class="numero-contador" id="minutos">00</div>
+                        <div class="numero-contador" id="segundos">00</div>
+                    </div>
+                    
+                </section>
+
+            </div>
+        </div>
+        <!-- === FIN DEL GRUPO 1 === -->
+        
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
