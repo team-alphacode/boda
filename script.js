@@ -1,11 +1,60 @@
 // Obtenemos los elementos
+const pantallaCarga = document.getElementById('pantalla-carga');
+const textoCarga = document.getElementById('texto-carga');
 const sello = document.getElementById('sello-interactivo');
 const pantallaSobre = document.getElementById('pantalla-sobre');
 const pantallaVideo = document.getElementById('pantalla-video');
 const videoInvitacion = document.getElementById('video-invitacion');
 const pantallaLanding = document.getElementById('pantalla-landing'); 
 
-// Animación del sello y arranque del primer video
+// Variables de seguridad (Validación Dual)
+let videoListo = false;
+let secuenciaTextosLista = false;
+
+// 1. ESCUCHAR AL VIDEO: Avisa cuando está 100% descargado en la memoria del celular
+videoInvitacion.addEventListener('canplaythrough', () => {
+    videoListo = true;
+    revisarCargaCompleta(); // Verifica si ya puede mostrar el sobre
+});
+
+// 2. FUNCIÓN PARA CAMBIAR TEXTOS SUAVEMENTE
+function cambiarTextoCarga(nuevoTexto, retrasoMiliseudos) {
+    setTimeout(() => {
+        textoCarga.classList.add('texto-oculto'); // Apaga el texto actual
+        setTimeout(() => {
+            textoCarga.innerHTML = nuevoTexto; // Inyecta el nuevo texto
+            textoCarga.classList.remove('texto-oculto'); // Enciende el nuevo texto
+        }, 500); // Tarda medio segundo en desvanecerse
+    }, retrasoMiliseudos);
+}
+
+// 3. ARRANCAR SECUENCIA AL ABRIR LA PÁGINA
+window.addEventListener('load', () => {
+    
+    // Programamos la línea de tiempo de los textos
+    cambiarTextoCarga("Buscando tu información...", 1500);
+    cambiarTextoCarga("Buscando tu invitación...", 4000);
+    cambiarTextoCarga("Invitación encontrada...<br>Disfruta la experiencia y esperamos tenerte con nosotros ese día.", 7000);
+    
+    // Marcamos la secuencia como terminada a los 11 segundos
+    setTimeout(() => {
+        secuenciaTextosLista = true;
+        revisarCargaCompleta(); // Verifica si el video también ya está listo
+    }, 11000); 
+});
+
+// 4. EL REVISOR DE VALIDACIÓN DUAL
+function revisarCargaCompleta() {
+    // Solo si el video descargó Y pasaron los 11 segundos de textos, se abre el sobre
+    if (videoListo && secuenciaTextosLista) {
+        pantallaCarga.style.opacity = '0';
+        setTimeout(() => {
+            pantallaCarga.classList.add('oculto');
+        }, 800);
+    }
+}
+
+// 5. ANIMACIÓN DEL SELLO AL HACER CLIC
 sello.addEventListener('click', () => {
     sello.classList.add('girar-animacion');
     sello.style.pointerEvents = 'none';
@@ -21,13 +70,12 @@ sello.addEventListener('click', () => {
     }, 3000); 
 });
 
-// Transición del primer video a la Landing Web
+// Transición del video a la Landing Web
 videoInvitacion.addEventListener('ended', () => {
     pantallaVideo.classList.add('oculto');
     pantallaLanding.classList.remove('oculto');
     pantallaLanding.classList.add('aparecer-suave');
 });
-
 // --- MOTOR PARALLAX DE ALTA PRECISIÓN ---
 
 window.addEventListener('scroll', () => {
